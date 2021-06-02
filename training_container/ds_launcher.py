@@ -232,6 +232,7 @@ def main():
     cmd = ["deepspeed"]
     if hostfile:
         cmd.append(f"--hostfile={hostfile}")
+
     #https://github.com/microsoft/DeepSpeed/blob/c5e4264186c321321858fb46d75c328fdc908ddb/deepspeed/launcher/runner.py#L95
     cmd.append("--launcher=openmpi")
     cmd.append("--launcher_args='--allow-run-as-root --display-map --tag-output'")

@@ -151,7 +151,8 @@ ENV CUDA_HOME=/usr/local/cuda-10.1
 ADD https://raw.githubusercontent.com/aws/deep-learning-containers/master/src/deep_learning_container.py /usr/local/bin/deep_learning_container.py
 RUN sudo chmod ugo+rwx /usr/local/bin/deep_learning_container.py
 
-RUN git clone https://github.com/vdabravolski/DeepSpeed.git ${STAGE_DIR}/DeepSpeed
+#RUN git clone https://github.com/vdabravolski/DeepSpeed.git ${STAGE_DIR}/DeepSpeed
+RUN git clone https://github.com/AIMLTOP/DeepSpeed.git ${STAGE_DIR}/DeepSpeed
 
 # copy scripts to directory under path
 # ENV DEEPSPEED_BIN=/opt/ml/code/deepspeed/bin
