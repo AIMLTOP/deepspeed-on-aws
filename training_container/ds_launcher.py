@@ -186,7 +186,7 @@ def worker_routine(proccess_id_string, worker):
 
     while True:
         # time.sleep(60)
-        time.sleep(200)
+        time.sleep(180)
 
         training_process_ps = subprocess.check_output('ps -elf | grep "{}"'.format(proccess_id_string), encoding='utf-8', shell=True)
         print("training_process_ps: {}".format(training_process_ps))
@@ -207,7 +207,7 @@ def worker_routine(proccess_id_string, worker):
                 training_process_started = True
             else:
                 # print('Worker {} exiting: training not started in 60 seconds.'.format(worker))
-                print('Worker {} exiting: training not started in 200 seconds.'.format(worker))
+                print('Worker {} exiting: training not started in 180 seconds.'.format(worker))
 
                 sys.exit(1)
 
