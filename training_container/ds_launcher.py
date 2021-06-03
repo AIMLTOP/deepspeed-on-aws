@@ -199,7 +199,6 @@ def worker_routine(proccess_id_string, worker):
         proc_list = subprocess.check_output("ps -ef", encoding='utf-8', shell=True)
         print(proc_list)
 
-
         training_process_count = subprocess.check_output('ps -elf | grep "{}" | wc -l'.format(proccess_id_string), encoding='utf-8', shell=True)
         training_process_count_str = training_process_count.replace("\n", "").strip()
         training_process_count = int(training_process_count_str) - 2
