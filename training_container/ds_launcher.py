@@ -42,6 +42,7 @@ def _wait_for_worker_nodes_to_start_sshd(hosts, interval=1, timeout_in_seconds=1
             for host in hosts:
                 ssh_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 if _can_connect(host, 22, ssh_socket):
+                    print("------- hosts are SSHable: %s", str(hosts))
                     hosts.remove(host)
             time.sleep(interval)
 
@@ -93,7 +94,7 @@ def _is_master_host() -> bool:
     else:
         hosts = ["localhost"]    
     
-    if len(hosts)==1:
+    if len(hosts) == 1:
         # to handle single node training
         logger.debug("single node, master=true")
         return True
@@ -119,6 +120,8 @@ def _get_training_world():
     for host in hosts:
         print(host)
 
+    print("--------- current host: {} -------------".format(current_host))
+
     # Define PyTorch training world
     world = {}
     world["number_of_processes"] = num_gpus
@@ -132,7 +135,7 @@ def _get_training_world():
 def _construct_host_file() -> str:
     """constructs MPI-compatible hostfile with all nodes 
      and number of GPU devices"""
-    hostfile = os.path.join(os.environ['SM_INPUT_CONFIG_DIR'],'hostfile')
+    hostfile = os.path.join(os.environ['SM_INPUT_CONFIG_DIR'], 'hostfile')
     if os.environ.get('SM_HOSTS', None) is not None:
         hosts =   json.loads(os.environ['SM_HOSTS'])
     else:
