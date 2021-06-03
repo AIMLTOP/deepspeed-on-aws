@@ -17,6 +17,9 @@ root        34    24  0 04:04 ?        00:00:00 orted -mca ess env -mca ess_base
 
 /opt/ml/code/train_cifar10.py
 
+ssh: connect to host algo-2 port 22: Connection refused
+
+
 # Issues
 [2021-06-03 01:41:20,343] [INFO] [runner.py:358:main] cmd = mpirun -n 2 -hostfile /opt/ml/input/config/hostfile --mca btl ^openib --mca btl_tcp_if_include eth0 --allow-run-as-root --display-map --tag-output -x UCX_TLS=tcp -x PYTHONUNBUFFERED=1 -x PYTHONIOENCODING=UTF-8 -x PYTHON_VERSION=3 -x PYTHONDONTWRITEBYTECODE=1 -x NCCL_VERSION=2.8.3 -x NCCL_SOCKET_IFNAME=eth0 -x NCCL_IB_DISABLE=1 -x NCCL_DEBUG=DEBUG -x PYTHONPATH=/opt/ml/code:/opt/ml/code:/opt/conda/bin:/opt/conda/lib/python36.zip:/opt/conda/lib/python3.6:/opt/conda/lib/python3.6/lib-dynload:/opt/conda/lib/python3.6/site-packages /opt/conda/bin/python3.6 -u /opt/ml/code/train_cifar10.py --deepspeed-flag --config-file=/opt/ml/code/cifar_ds_config.json
 ssh: connect to host algo-2 port 22: Connection refused
