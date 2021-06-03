@@ -1,8 +1,6 @@
-import os
-pids = [pid for pid in os.listdir('/proc') if pid.isdigit()]
+import subprocess as sb
 
-for pid in pids:
-    try:
-        print(open(os.path.join('/proc', pid, 'cmdline'), 'rb').read().split('\0'))
-    except IOError: # proc has already terminated
-        continue
+proc_list = sb.Popen("ps -ef | awk '{print $2} ' ", stdout=sb.PIPE).communicate()[0].splitlines()
+
+for pid in proc_list:
+    print(pid)
