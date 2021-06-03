@@ -5,6 +5,8 @@ docker build -t deepspeed-sm-base . -f Dockerfile-Base
 docker tag deepspeed-sm-base:latest 447341124968.dkr.ecr.us-east-1.amazonaws.com/deepspeed-sm-base:latest
 docker push 447341124968.dkr.ecr.us-east-1.amazonaws.com/deepspeed-sm-base:latest
 
+# notebook instance
+ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa
 
 
 root         1     0  0 04:04 ?        00:00:00 bash -m start_with_right_hostname.sh train
