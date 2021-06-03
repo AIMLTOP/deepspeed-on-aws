@@ -115,6 +115,10 @@ def _get_training_world():
     hosts = json.loads(os.environ["SM_HOSTS"])
     current_host = os.environ["SM_CURRENT_HOST"]
 
+    print("--------- all hosts -------------")
+    for host in hosts:
+        print(host)
+
     # Define PyTorch training world
     world = {}
     world["number_of_processes"] = num_gpus
@@ -128,9 +132,9 @@ def _get_training_world():
 def _construct_host_file() -> str:
     """constructs MPI-compatible hostfile with all nodes 
      and number of GPU devices"""
-    hostfile=os.path.join(os.environ['SM_INPUT_CONFIG_DIR'],'hostfile')
+    hostfile = os.path.join(os.environ['SM_INPUT_CONFIG_DIR'],'hostfile')
     if os.environ.get('SM_HOSTS', None) is not None:
-        hosts =  json.loads(os.environ['SM_HOSTS'])
+        hosts =   json.loads(os.environ['SM_HOSTS'])
     else:
         hosts = ["localhost"]
     
@@ -139,7 +143,7 @@ def _construct_host_file() -> str:
 #     hosts[hosts.index(os.environ['SM_CURRENT_HOST'])]='127.0.0.1'
     print(f"list of hosts:{hosts} used to construct hostfile config")
         
-    if len(hosts)==1:
+    if len(hosts) == 1:
         # for single node training
         # deepspeed will automatically use all local resources
         # no need to create host files
@@ -171,14 +175,19 @@ def worker_routine(proccess_id_string, worker):
     It waits for 60 seconds and then checks if training processes are spawned up.
     """
     
-    print("Inside worker routine")
+    print("Inside worker {} routine".format(worker))
 
     training_process_started = False
-    
+
+    print("proccess_id_string:  {}".format(proccess_id_string))
+
     while True:
-        time.sleep(60)
-                
+        # time.sleep(60)
+        time.sleep(200)
+
         training_process_ps = subprocess.check_output('ps -elf | grep "{}"'.format(proccess_id_string), encoding='utf-8', shell=True)
+        print("training_process_ps: {}".format(training_process_ps))
+
         training_process_count = subprocess.check_output('ps -elf | grep "{}" | wc -l'.format(proccess_id_string), encoding='utf-8', shell=True)
         training_process_count_str = training_process_count.replace("\n", "").strip()
         training_process_count = int(training_process_count_str) - 2
@@ -194,7 +203,9 @@ def worker_routine(proccess_id_string, worker):
             if training_process_running:
                 training_process_started = True
             else:
-                print('Worker {} exiting: training not started in 60 seconds.'.format(worker))
+                # print('Worker {} exiting: training not started in 60 seconds.'.format(worker))
+                print('Worker {} exiting: training not started in 200 seconds.'.format(worker))
+
                 sys.exit(1)
 
 
@@ -244,7 +255,8 @@ def main():
     # TODO: reconsider this feature adding all arguments which were not parsed by launcher argparse
 #     cmd.append(unknown)
     logger.info(f"Following command line will be launched on master:{cmd}")
-    
+    print("Following command line will be launched on master: {}".format(cmd))
+
     # update current_env list
     env_vars = os.environ.copy()
     env_vars['NCCL_DEBUG']='DEBUG'
