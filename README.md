@@ -8,6 +8,11 @@ docker push 447341124968.dkr.ecr.us-east-1.amazonaws.com/deepspeed-sm-base:lates
 # notebook instance
 ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa
 cp ~/.ssh/id_rsa.pub ssh/id_rsa.pub
+cp ~/.ssh/id_rsa ssh/id_rsa
+
+
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
 
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
@@ -22,7 +27,6 @@ mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 vi ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
-
 chmod 600 ~/.ssh/config
 
 
