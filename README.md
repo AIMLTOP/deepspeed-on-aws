@@ -7,7 +7,29 @@ docker push 447341124968.dkr.ecr.us-east-1.amazonaws.com/deepspeed-sm-base:lates
 
 # notebook instance
 ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa
+cp ~/.ssh/id_rsa.pub ssh/id_rsa.pub
 
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+
+ssh-keygen -t rsa -b 4096 -C "deepspeed"
+ls ~/.ssh/id_*
+
+cat ~/.ssh/id_rsa.pub
+
+另一台Server
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+vi ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+
+chmod 600 ~/.ssh/config
+
+
+RUN printf "Host *\n  StrictHostKeyChecking no\n  UserKnownHostsFile /dev/null\n" >> /root/.ssh/config
+
+
+systemctl restart sshd
 
 root         1     0  0 04:04 ?        00:00:00 bash -m start_with_right_hostname.sh train
 root        14     1  0 04:04 ?        00:00:00 /opt/conda/bin/python3.6 /opt/conda/bin/train

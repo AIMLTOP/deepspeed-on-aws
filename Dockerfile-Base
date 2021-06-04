@@ -46,9 +46,11 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 RUN mkdir -p /root/.ssh/
 #RUN yes | ssh-keygen -q -t rsa -N '' -f /root/.ssh/id_rsa
 #RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
-COPY ~/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+COPY /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
 
-RUN printf "Host *\n  StrictHostKeyChecking no\n" >> /root/.ssh/config
+RUN printf "Host *\n  StrictHostKeyChecking no\n  UserKnownHostsFile /dev/null\n" >> /root/.ssh/config
+
+RUN chmod 600 /root/.ssh -R
 
 # # Keep SSH client alive from server side
 RUN echo "ClientAliveInterval 30" >> /etc/ssh/sshd_config
